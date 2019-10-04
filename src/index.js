@@ -6,6 +6,10 @@ import connect from '@vkontakte/vk-connect';
 import App from './App';
 // import registerServiceWorker from './sw';
 
+import axios from 'axios';
+
+window.axios = axios;
+
 // Init VK  Mini App
 connect.send('VKWebAppInit');
 

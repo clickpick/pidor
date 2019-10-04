@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import connect from '@vkontakte/vk-connect';
+
 import { View } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
-import Home from './panels/Home';
+import Home from 'panels/Home';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
@@ -24,7 +25,7 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel}>
-			<Home id='home' go={go} />
+			<Home id="home" go={go} />
 		</View>
 	);
 }
