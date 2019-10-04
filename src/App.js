@@ -15,6 +15,9 @@ const App = () => {
 
 	const [user, setUser] = useState(null);
 
+	/**
+	 * Авторизация
+	 */
 	useEffect(() => {
 		window.axios = window.axios.create({
 			baseURL: process.env.REACT_APP_API_URL,
@@ -39,6 +42,9 @@ const App = () => {
 		authorization();
 	}, []);
 
+	/**
+	 * Подписка на события vk connect
+	 */
 	useEffect(() => {
 		connect.subscribe(({ detail: { type, data }}) => {
 			if (type === 'VKWebAppUpdateConfig') {
@@ -49,9 +55,35 @@ const App = () => {
 		});
 	}, []);
 
-	const go = (e) => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
+	/**
+	 * Организация переходов по панелям
+	 */
+	function changeActivePanel(e) {
+		if (e.state) {
+			setActivePanel(e.state.panel);
+		} else {
+			setActivePanel('home')
+			window.history.pushState({ panel: 'home' }, 'home');
+		}
+	}
+
+	function go(e) {
+		setActivePanel(e.currentTarget.dataset.to)
+		window.history.pushState({ panel: e.currentTarget.dataset.to }, e.currentTarget.dataset.to);
+	}
+
+	function goBack() {
+		window.history.back();
+	}
+
+	useEffect(() => {
+		window.addEventListener('popstate', (e) => {
+			e.preventDefault();
+			changeActivePanel(e);
+		});
+
+		window.history.pushState({ panel: activePanel }, activePanel);
+	}, []);
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
