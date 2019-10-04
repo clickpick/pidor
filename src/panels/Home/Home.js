@@ -1,11 +1,11 @@
 import React from 'react';
-import { string, shape, number, bool } from 'prop-types';
+import { string, shape, number, bool, func } from 'prop-types';
 
 import { Panel, PanelHeader, Div, Avatar, Button } from '@vkontakte/vkui';
 
 import './Home.css';
 
-const Home = ({ id, user }) => {
+const Home = ({ id, user, go }) => {
     return (
         <Panel id={id} className="Home">
             <PanelHeader>{(user) ? 'Пидор дня' : 'Погоди...'}</PanelHeader>
@@ -16,7 +16,13 @@ const Home = ({ id, user }) => {
                     {(user.is_pidor) ? 'Ты пидор' : 'Сегодня ты не пидор'}
                 </Div>
                 <Div>
-                    <Button className="Home__Button" size="xl" level="secondary">Найти пидора в друзей</Button>
+                    <Button
+                        className="Home__Button"
+                        size="xl"
+                        level="secondary"
+                        children="Найти пидора в друзей"
+                        data-to="friends"
+                        onClick={go} />
                     <Button className="Home__Button" size="xl" level="secondary">Топ пидоров</Button>
                     <Button className="Home__Button" size="xl" level="primary">Не хочу быть пидором</Button>
                 </Div>
@@ -37,7 +43,8 @@ Home.propTypes = {
         notifications_are_enabled: bool,
         is_pidor: bool,
         pidor_rate: number
-    })
+    }),
+    go: func.isRequired
 };
 
 export default Home;
