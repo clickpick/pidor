@@ -1,12 +1,26 @@
 import React from 'react';
 import { string, shape, number, bool } from 'prop-types';
 
-import { Panel, PanelHeader } from '@vkontakte/vkui';
+import { Panel, PanelHeader, Div, Avatar, Button } from '@vkontakte/vkui';
+
+import './Home.css';
 
 const Home = ({ id, user }) => {
     return (
-        <Panel id={id}>
+        <Panel id={id} className="Home">
             <PanelHeader>{(user) ? 'Пидор дня' : 'Погоди...'}</PanelHeader>
+
+            {(user) && <> 
+                <Div>
+                    <Avatar src={user.avatar_200} size={80} /> 
+                    {(user.is_pidor) ? 'Ты пидор' : 'Сегодня ты не пидор'}
+                </Div>
+                <Div>
+                    <Button className="Home__Button" size="xl" level="secondary">Найти пидора в друзей</Button>
+                    <Button className="Home__Button" size="xl" level="secondary">Топ пидоров</Button>
+                    <Button className="Home__Button" size="xl" level="primary">Не хочу быть пидором</Button>
+                </Div>
+            </>}
         </Panel>
     );
 };
