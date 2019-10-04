@@ -84,6 +84,7 @@ const App = () => {
 		});
 
 		window.history.pushState({ panel: activePanel }, activePanel);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
