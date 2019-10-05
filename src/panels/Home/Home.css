@@ -1,5 +1,5 @@
 .Home__Level {
-    margin-top: calc(69px + var(--safe-area-inset-top));
+    margin-top: calc(49px + var(--safe-area-inset-top));
     margin-right: auto;
     margin-left: auto
 }
