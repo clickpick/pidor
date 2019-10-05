@@ -1,0 +1,107 @@
+.Level {
+    --level-size: 300px;
+
+    width: var(--level-size);
+    height: var(--level-size);
+
+    border-radius: 50%;
+
+    background-color: transparent;
+}
+
+.Level__progress-wrapper {
+    position: relative;
+
+    width: var(--level-size);
+    height: var(--level-size);
+}
+
+.Level__progress circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(110deg);
+    transform-origin: 50% 50%;
+}
+
+.Level__avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+
+    width: calc(var(--level-size) * 0.84);
+    height: calc(var(--level-size) * 0.84);
+}
+
+.Level__avatar img {
+    width: calc(var(--level-size) * 0.84);
+    height: calc(var(--level-size) * 0.84);
+
+    border-radius: 50%;
+}
+
+.Level__avatar::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    display: block;
+    content: '';
+    
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(90deg, #355FF6 0%, #5FCBFF 100%);
+    filter: blur(50px);
+
+    opacity: var(--level-progress);
+
+    animation-name: fadeIn;
+    animation-duration: 1500ms;
+}
+
+.Level__percent {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--blue);
+    text-shadow: 0 0 40px var(--blue);
+}
+
+.Level__text {
+    transition: opacity 500ms cubic-bezier(1, 0, 0.98, 0.87);
+}
+
+.Level__text--hide {
+    opacity: 0;
+}
+
+.Level__title {
+    margin-top: 55px;
+
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--blue);
+    text-align: center;
+}
+
+.Level__subtitle {
+    margin-top: 10px;
+
+    font-size: 16px;
+    color: var(--gray);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: var(--level-progress);
+    }
+}

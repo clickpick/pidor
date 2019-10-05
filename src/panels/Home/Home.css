@@ -1,3 +1,9 @@
+.Home__Level {
+    margin-top: calc(69px + var(--safe-area-inset-top));
+    margin-right: auto;
+    margin-left: auto
+}
+
 .Home__Button {
     margin-bottom: 8px;
 }
