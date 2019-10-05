@@ -1,0 +1,22 @@
+:root {
+    /**
+     * Цвета
+     */
+    --white: #fff;
+    --black: #161927;
+    --blue: #5FCBFF;
+    --gray: #99A2AD;
+
+    --background_page: var(--black);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.PanelHeader,
+.PanelHeader * {
+    box-sizing: unset;
+}

@@ -9,6 +9,8 @@ import Home from 'panels/Home';
 import { getTimezoneOffset, parseQueryString } from 'helpers';
 import { auth } from 'api';
 
+import './App.css';
+
 const App = () => {
 	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
