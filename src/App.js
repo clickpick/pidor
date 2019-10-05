@@ -5,7 +5,6 @@ import { View, ScreenSpinner } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from 'panels/Home';
-import Friends from 'panels/Friends';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
 import { auth } from 'api';
@@ -90,7 +89,6 @@ const App = () => {
 	return (
 		<View activePanel={activePanel} popout={popout}>
 			<Home id="home" user={user} go={go} />
-			<Friends id="friends" goBack={goBack} />
 		</View>
 	);
 }
