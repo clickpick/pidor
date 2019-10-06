@@ -1,0 +1,29 @@
+.Notification {
+    display: flex;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #000;
+}
+
+.Notification__before {
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+.Notification__persik {
+    width: 50px;
+    height: 50px;
+}
+
+.Notification__title {
+    margin-bottom: 2px;
+
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+.Notification__subtitle {
+    font-size: 14px;
+    color: rgba(var(--gray-rgb), 0.6);
+}
