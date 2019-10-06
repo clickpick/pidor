@@ -7,7 +7,7 @@ import { Panel } from '@vkontakte/vkui';
 import NotificationContainer from 'components/NotificationContainer';
 import Notification from 'components/Notification';
 import Level from 'components/Level';
-import Top from 'components/Top';
+import PidorDay from 'components/PidorDay';
 import Button from 'components/Button';
 import FriendsList from 'components/FriendsList';
 
@@ -47,7 +47,7 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
                     </div>
                 </div>
 
-                <Top className="Home__Top" user={pidorDay} />
+                <PidorDay className="Home__PidorDay" user={pidorDay} />
 
                 {(friends === null) && 'Дай список друзуй'}
 

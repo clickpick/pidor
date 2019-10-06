@@ -1,4 +1,4 @@
-.Top {
+.PidorDay {
     --top-werath: none;
     --top-werath-bg: none;
 
@@ -14,7 +14,7 @@
     text-decoration: none;
 }
 
-.Top::after {
+.PidorDay::after {
     display: block;
     content: '';
 
@@ -31,7 +31,7 @@
     background-position-y: 7px;
 }
 
-.Top__avatar {
+.PidorDay__avatar {
     position: relative;
 
     display: flex;
@@ -41,7 +41,7 @@
     height: 104px;
 }
 
-.Top__avatar::after {
+.PidorDay__avatar::after {
     display: block;
     content: '';
 
@@ -57,14 +57,14 @@
     background-size: cover;
 }
 
-.Top__avatar img {
+.PidorDay__avatar img {
     width: 70px;
     height: 70px;
 
     border-radius: 50%;
 }
 
-.Top__name {
+.PidorDay__name {
     margin-bottom: 5px;
 
     font-size: 18px;
@@ -72,7 +72,7 @@
     color: var(--blue);
 }
 
-.Top__status {
+.PidorDay__status {
     font-size: 16px;
     color: var(--gray);
 }
