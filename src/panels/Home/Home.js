@@ -4,15 +4,23 @@ import { string, shape, number, bool, arrayOf, object } from 'prop-types';
 import './Home.css';
 
 import { Panel } from '@vkontakte/vkui';
+import NotificationContainer from 'components/NotificationContainer';
+import Notification from 'components/Notification';
 import Level from 'components/Level';
 import Top from 'components/Top';
 import Button from 'components/Button';
 import FriendsList from 'components/FriendsList';
 
-const Home = ({ id, user, friends }) => {
+const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
+    function renderNotification(notification, index) {
+        return <Notification key={index} {...notification} />;
+    }
+
     return (
         <Panel id={id} className="Home">
-            {(user) && <> 
+            <NotificationContainer children={notifications.map(renderNotification)} />
+
+            {(loading) && <> 
                 <Level
                     className="Home__Level"
                     progress={user.pidor_rate}
@@ -33,13 +41,13 @@ const Home = ({ id, user, friends }) => {
                         <Button
                             className="Home__Button"
                             size="medium"
-                            children="Убрать 20%"
+                            children="Убрать до 0%"
                             full />
                         <p className="Home__hint" children="Плоти и никто не узнает" />
                     </div>
                 </div>
 
-                <Top className="Home__Top" user={user} />
+                <Top className="Home__Top" user={pidorDay} />
 
                 {(friends === null) && 'Дай список друзуй'}
 
@@ -56,6 +64,7 @@ const Home = ({ id, user, friends }) => {
 
 Home.propTypes = {
     id: string.isRequired,
+    loading: bool,
     user: shape({
         vk_user_id: number,
         first_name: string,
@@ -67,7 +76,19 @@ Home.propTypes = {
         is_pidor: bool,
         pidor_rate: number
     }),
+    pidorDay: shape({
+        vk_user_id: number,
+        first_name: string,
+        last_name: string,
+        avatar_200: string,
+        utc_offset: number,
+        messages_are_enabled: bool,
+        notifications_are_enabled: bool,
+        is_pidor: bool,
+        pidor_rate: number
+    }),
     friends: arrayOf(object),
+    notifications: arrayOf(object)
 };
 
 export default Home;

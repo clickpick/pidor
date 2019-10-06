@@ -7,7 +7,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from 'panels/Home';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
-import { auth, friends } from 'api';
+import { auth, friends, pidorOfTheDay } from 'api';
 
 import './App.css';
 
@@ -15,7 +15,10 @@ const App = () => {
 	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
 	const [user, setUser] = useState(null);
+	const [pidorDay, setPidorDay] = useState(null);
 	const [friendsList, setFriendsList] = useState(undefined);
+
+	const [notifications, setNotifications] = useState([]);
 
 	/**
 	 * Авторизация
@@ -42,7 +45,7 @@ const App = () => {
 		}
 
 		function fetchFriends(callback = f => f) {
-			friends()
+			return friends()
 				.then(({ data }) => {
 					setFriendsList(data);
 				})
@@ -55,11 +58,27 @@ const App = () => {
 				.then(callback, callback);
 		}
 
+		function fetchPidorOfTheDay(callback = f => f) {
+			return pidorOfTheDay()
+				.then(({ data }) => {
+					setPidorDay(data);
+				})
+				.catch(() => console.log('fetch pidor'))
+				.then(callback, callback);
+		}
+
+		function fetchAll() {
+			Promise.all([fetchFriends(), fetchPidorOfTheDay()]).then(
+				removePopout,
+				() => console.log('err')
+			)
+		}
+
 		function removePopout() {
 			setPopout(null);
 		}
 
-		authorization(() => fetchFriends(removePopout));
+		authorization(fetchAll);
 	}, []);
 
 	/**
@@ -77,7 +96,13 @@ const App = () => {
 
 	return (
 		<View activePanel="home" popout={popout}>
-			<Home id="home" user={user} friends={friendsList} />
+			<Home
+				id="home"
+				loading={!Boolean(popout)}
+				user={user}
+				pidorDay={pidorDay}
+				friends={friendsList}
+				notifications={notifications} />
 		</View>
 	);
 }
