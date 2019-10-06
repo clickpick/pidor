@@ -6,6 +6,9 @@
     --black: #161927;
     --blue: #5FCBFF;
     --gray: #99A2AD;
+    --gray-rgb: 153, 162, 173;
+    
+    --button-bg: rgba(101, 132, 241, 0.1);
 
     --background_page: var(--black);
 }
