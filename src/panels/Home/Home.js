@@ -49,14 +49,8 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
 
                 <PidorDay className="Home__PidorDay" user={pidorDay} />
 
-                {(friends === null) && 'Дай список друзуй'}
-
                 {(Array.isArray(friends) && friends.length > 0) &&
                     <FriendsList className="Home__FriendsList" data={friends} />}
-                {
-                    // mock
-                }
-                <FriendsList className="Home__FriendsList" data={[user, user]} />
             </>}
         </Panel>
     );

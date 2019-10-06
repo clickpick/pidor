@@ -20,6 +20,27 @@ const App = () => {
 
 	const [notifications, setNotifications] = useState([]);
 
+	function addNotification(title, subtitle, duration) {
+		setTimeout(() => {
+			const index = notifications.length;
+			const nextNotifications = [...notifications].concat({ title, subtitle });
+			
+			setNotifications(nextNotifications);
+			removeNotification(index);
+		}, duration);
+	}
+
+	function removeNotification(index, duration = 4000) {
+		setTimeout(() => {
+			const nextNotifications = notifications.filter(filterNotification, index);
+			setNotifications(nextNotifications);
+		}, duration);
+	}
+
+	function filterNotification(_, index) {
+		return index !== this;
+	}
+
 	/**
 	 * Авторизация
 	 */
@@ -52,7 +73,11 @@ const App = () => {
 				.catch(({ response: { status } }) => {
 					// закрытый профиль
 					if (status === 403) {
-						setFriendsList(null);
+						addNotification(
+							'Твой профиль закрыт',
+							'Мы не можем показать тебе, кто из твоих друзей пидор :(',
+							5000
+						);
 					}
 				})
 				.then(callback, callback);
@@ -79,6 +104,7 @@ const App = () => {
 		}
 
 		authorization(fetchAll);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	/**
