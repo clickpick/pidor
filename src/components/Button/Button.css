@@ -1,0 +1,92 @@
+.Button {
+    display: inline-block;
+
+    padding: 0 16px;
+
+    border: none;
+    border-radius: 16px;
+    
+    background-color: var(--button-bg);
+    
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 28px;
+    
+    cursor: pointer;
+
+    transition: transform 150ms ease-in;
+}
+
+.Button:active:not([disabled]) {
+    transform: scale(0.95) translateY(1px);
+}
+
+/**
+ * Размеры
+ */
+.Button.Button--medium {
+    border-radius: 6px;
+
+    font-size: 16px;
+    line-height: 44px;
+}
+
+/**
+ * Опции
+ */
+.Button.Button--full {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 6px;
+}
+
+.Button--flex {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Button--circle {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    
+    border-radius: 50%;
+}
+
+.Button.Button--medium.Button--circle {
+    width: 44px;
+    height: 44px;
+}
+
+/**
+ * before content
+ */
+.Button__before {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.Button.Button--medium .Button__before {
+    margin-right: 8px;
+}
+
+/**
+ * Свойства для svg в before и aside
+ */
+.Button svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--blue);
+}
+
+.Button.Button--medium svg {
+    width: 24px;
+    height: 24px;
+}
