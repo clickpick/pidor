@@ -7,7 +7,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from 'panels/Home';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
-import { auth } from 'api';
+import { auth, friends } from 'api';
 
 import './App.css';
 
@@ -15,6 +15,7 @@ const App = () => {
 	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
 	const [user, setUser] = useState(null);
+	const [friendsList, setFriendsList] = useState(undefined);
 
 	/**
 	 * Авторизация
@@ -31,16 +32,34 @@ const App = () => {
 			},
 		});
 
-		function authorization() {
+		function authorization(callback = f => f) {
 			auth()
 				.then(({ data }) => {
 					setUser(data);
-					setPopout(null);
+					callback();
 				})
 				.catch(() => console.log('auth'));
 		}
 
-		authorization();
+		function fetchFriends(callback = f => f) {
+			friends()
+				.then(({ data }) => {
+					setFriendsList(data);
+				})
+				.catch(({ response: { status } }) => {
+					// закрытый профиль
+					if (status === 403) {
+						setFriendsList(null);
+					}
+				})
+				.then(callback, callback);
+		}
+
+		function removePopout() {
+			setPopout(null);
+		}
+
+		authorization(() => fetchFriends(removePopout));
 	}, []);
 
 	/**
@@ -58,7 +77,7 @@ const App = () => {
 
 	return (
 		<View activePanel="home" popout={popout}>
-			<Home id="home" user={user} />
+			<Home id="home" user={user} friends={friendsList} />
 		</View>
 	);
 }

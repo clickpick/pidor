@@ -1,13 +1,39 @@
 .Home__Level {
     margin-top: calc(49px + var(--safe-area-inset-top));
     margin-right: auto;
+    margin-bottom: 30px;
     margin-left: auto
 }
 
-.Home__Button {
-    margin-bottom: 8px;
+.Home__Top {
+    margin-right: auto;
+    margin-bottom: 30px;
+    margin-left: auto;
 }
 
-.Home__Button:last-child {
-    margin-bottom: 0;
+.Home__actions {
+    display: flex;
+    margin-bottom: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.Home__action {
+    width: 50%;
+}
+
+.Home__action:first-child {
+    margin-right: 20px;
+}
+
+.Home__Button {
+    margin-bottom: 10px;
+}
+
+.Home__hint {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(var(--gray-rgb), 0.3);
+    text-transform: uppercase;
+    text-align: center;
 }
