@@ -12,6 +12,7 @@ import Button from 'components/Button';
 import FriendsList from 'components/FriendsList';
 
 import * as USER_ACTION from 'constants/userAction';
+import { DONATE_LINK } from 'constants/vk';
 
 const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStory, disabledPostStory }) => {
     function renderNotification(notification, index) {
@@ -48,6 +49,7 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
                     </div>
                     <div className="Home__action">
                         <Button
+                            href={DONATE_LINK}
                             className="Home__Button"
                             size="medium"
                             children="Убрать до 0%"
