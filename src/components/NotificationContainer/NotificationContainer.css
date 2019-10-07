@@ -11,7 +11,10 @@
 .NotificationContainer {
     width: 100%;
     height: 100%;
-    padding: 20px;
+    padding-top: calc(20px + var(--safe-area-inset-top));
+    padding-right: 20px;
+    padding-bottom: calc(20px + var(--safe-area-inset-bottom));
+    padding-left: 20px;
 
     overflow-y: scroll;
 }
