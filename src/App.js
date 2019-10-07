@@ -184,20 +184,15 @@ const App = () => {
 					}
 				})
 					.then(({ response }) => {
-						startPostingStory();						
+						startPostingStory();
 
 						const uploadUrl = response.upload_url;
 						
 						postStory(uploadUrl)
-							.then(({ status }) => {
+							.then(({ status, data }) => {
 								if (status === 200) {
 									successPostedStory();
-
-									const rate = user.pidor_rate - 20;
-									setUser({
-										...user,
-										pidor_rate: (rate < 0) ? 0 : rate
-									});
+									setUser(data);
 								}
 							})
 							.catch(failPostedStory)
