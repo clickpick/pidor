@@ -11,21 +11,31 @@ const Level = ({ className, radius, stroke, progress, avatar, gif, title, subtit
      * Анимация прогресса
      */
     useEffect(() => {
-        let nextProgress = currentProgress + 6;
-        let duration = 35;
+        if (currentProgress < progress) {
+            let nextProgress = currentProgress + 6;
+            let duration = 35;
 
-        if (currentProgress / progress >= 0.45) {
-            duration = 45;
-            nextProgress = currentProgress + 3;
+            if (currentProgress / progress >= 0.45) {
+                duration = 45;
+                nextProgress = currentProgress + 3;
+            }
+
+            if (currentProgress / progress >= 0.85) {
+                duration = 85;
+                nextProgress = currentProgress + 1;
+            }
+
+            if (nextProgress <= progress && currentProgress !== progress) {
+                setTimeout(() => setCurrentProgress(nextProgress), duration);
+            }
         }
 
-        if (currentProgress / progress >= 0.85) {
-            duration = 85;
-            nextProgress = currentProgress + 1;
-        }
+        if (currentProgress > progress) {
+            let nextProgress = currentProgress - 1;
 
-        if (nextProgress <= progress && currentProgress !== progress) {
-            setTimeout(() => setCurrentProgress(nextProgress), duration);
+            if (nextProgress >= progress && currentProgress !== progress) {
+                setTimeout(() => setCurrentProgress(nextProgress), 35);
+            }
         }
     }, [currentProgress, progress]);
 
