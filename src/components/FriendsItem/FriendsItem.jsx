@@ -31,7 +31,7 @@ const FriendsItem = ({ className, user, onClick, ...restProps }) => {
                 </div>
                 <div className="FriendsItem__main">
                     <h3 className="FriendsItem__name" children={name} />
-                    <p className="FriendsItem__rate" children={`${user.pidor_rate}%`} />
+                    <p className="FriendsItem__rate" children={`Пидор на ${user.pidor_rate}%`} />
                 </div>
                 <div className="FriendsItem__aside">
                     <Button
