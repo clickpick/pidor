@@ -56,8 +56,10 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
 
                 {(pidorDay) && <PidorDay className="Home__PidorDay" user={pidorDay} />}
 
-                {(Array.isArray(friends) && friends.length > 0) &&
-                    <FriendsList className="Home__FriendsList" data={friends} />}
+                {(Array.isArray(friends) && friends.length > 0) && <>
+                    <h2 className="Home__title">Твои друзия – пидоры</h2>
+                    <FriendsList className="Home__FriendsList" data={friends} />
+                </>}
             </>}
         </Panel>
     );

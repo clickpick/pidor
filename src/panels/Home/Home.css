@@ -37,3 +37,12 @@
     text-transform: uppercase;
     text-align: center;
 }
+
+.Home__title {
+    margin-bottom: 30px;
+
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(var(--gray-rgb), 0.5);
+    text-align: center;
+}
