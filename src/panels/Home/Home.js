@@ -11,6 +11,8 @@ import PidorDay from 'components/PidorDay';
 import Button from 'components/Button';
 import FriendsList from 'components/FriendsList';
 
+import * as USER_ACTION from 'constants/userAction';
+
 const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStory, disabledPostStory }) => {
     function renderNotification(notification, index) {
         return <Notification key={index} {...notification} />;
@@ -34,7 +36,9 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
                         <Button
                             className="Home__Button"
                             size="medium"
-                            children="Убрать 20%"
+                            children={(Boolean(user.published_stories.find((action) => action === USER_ACTION.CONFESSION))
+                                ? 'Поделиться'
+                                : 'Убрать 20%')}
                             full
                             onClick={postingStory}
                             disabled={disabledPostStory} />
@@ -77,7 +81,8 @@ Home.propTypes = {
         messages_are_enabled: bool,
         notifications_are_enabled: bool,
         is_pidor: bool,
-        pidor_rate: number
+        pidor_rate: number,
+        published_stories: arrayOf(string),
     }),
     pidorDay: shape({
         vk_user_id: number,
