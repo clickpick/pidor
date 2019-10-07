@@ -10,4 +10,6 @@ export const auth = (data) => requestPost('/auth', data);
 
 export const friends = () => requestGet('/friends');
 
-export const pidorOfTheDay = () => requestGet('/pidor_of_the_day');
+export const pidorOfTheDay = () => requestGet('/pidor-of-the-day');
+
+export const postStory = (upload_url) => requestPost('/post-story', { upload_url });
