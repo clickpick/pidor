@@ -109,20 +109,6 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	/**
-	 * Подписка на события vk connect
-	 */
-	useEffect(() => {
-		connect.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	function startPostingStory() {
 		addNotification(
 			'Начинаем постить твою историю',
