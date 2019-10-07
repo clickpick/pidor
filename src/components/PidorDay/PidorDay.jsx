@@ -1,19 +1,22 @@
 import React from 'react';
-import { string, number, shape, object } from 'prop-types';
+import { string, number, shape, func } from 'prop-types';
 import classNames from 'classnames';
 
 import './PidorDay.css';
 
-import wreath from 'svg/wreath.svg';
-import wreathBg from 'svg/wreath-bg.svg';
+import Button from 'components/Button';
 
-const PidorDay = ({ className, user, style, ...restProps }) => {
+const PidorDay = ({ className, user, onClick, ...restProps }) => {
     const name = `${user.first_name} ${user.last_name}`;
-    style = {
-        ...style,
-        '--top-werath': `url('${wreath}')`,
-        '--top-werath-bg': `url('${wreathBg}')`,
-    };
+
+    function handleButtonClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (onClick) {
+            onClick();
+        }
+    }
 
     return (
         <a
@@ -21,13 +24,18 @@ const PidorDay = ({ className, user, style, ...restProps }) => {
             href={`https://vk.com/id${user.vk_user_id}`}
             target="_blank"
             rel="noopener noreferrer"
-            style={style}
             {...restProps}>
             <div className="PidorDay__avatar">
                 <img src={user.avatar_200} alt={name} />
             </div>
             <h2 className="PidorDay__name" children={name} />
             <p className="PidorDay__status" children="Пидор дня" />
+
+            <Button
+                size="medium"
+                full
+                children="Стать пидором дня"
+                onClick={handleButtonClick} />
         </a>
     );
 };
@@ -38,7 +46,7 @@ PidorDay.propTypes = {
         vk_user_id: number,
         avatar_200: string,
     }),
-    style: object
+    onClick: func
 };
 
 export default PidorDay;

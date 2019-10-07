@@ -8,27 +8,13 @@
     flex-direction: column;
     align-items: center;
 
-    width: 188px;
-    padding-top: 50px;
+    width: 100%;
+    padding: 50px 20px 20px;
 
     text-decoration: none;
-}
 
-.PidorDay::after {
-    display: block;
-    content: '';
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 188px;
-    height: 174px;
-
-    background-image: var(--top-werath-bg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position-y: 7px;
+    background-image: url('../../images/star-pattern.png');
+    background-size: 82px;
 }
 
 .PidorDay__avatar {
@@ -52,7 +38,7 @@
     width: 100%;
     height: 100%;
 
-    background-image: var(--top-werath);
+    background-image: url('../../svg/wreath.svg');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -73,6 +59,8 @@
 }
 
 .PidorDay__status {
+    margin-bottom: 20px;
+
     font-size: 16px;
     color: var(--gray);
 }
