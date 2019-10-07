@@ -74,9 +74,10 @@ const Level = ({ className, radius, stroke, progress, avatar, gif, title, subtit
                     <video
                         src={gif}
                         poster={avatar}
-                        autoPlay
+                        playsInline
                         loop
-                        muted />
+                        muted
+                        autoPlay />
                 </div>
 
                 <div className="Level__percent" children={`${currentProgress}%`} />
