@@ -7,7 +7,8 @@ import '@vkontakte/vkui/dist/vkui.css';
 import Home from 'panels/Home';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
-import { auth, friends, pidorOfTheDay } from 'api';
+import { auth, friends, pidorOfTheDay, postStory } from 'api';
+import * as VK from 'constants/vk';
 
 import './App.css';
 
@@ -17,8 +18,9 @@ const App = () => {
 	const [user, setUser] = useState(null);
 	const [pidorDay, setPidorDay] = useState(null);
 	const [friendsList, setFriendsList] = useState(undefined);
-
 	const [notifications, setNotifications] = useState([]);
+
+	const [disabledPostStory, setDisabledPostStory] = useState(false);
 
 	function addNotification(title, subtitle, duration) {
 		setTimeout(() => {
@@ -118,7 +120,95 @@ const App = () => {
 				document.body.attributes.setNamedItem(schemeAttribute);
 			}
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	function startPostingStory() {
+		addNotification(
+			'Начинаем постить твою историю',
+			'Погоди-ка чутка...',
+			500
+		);
+	}
+
+	function successPostedStory() {
+		addNotification('Ура!', 'Ну ты не пидор', 500);
+	}
+
+	function failPostedStory() {
+		addNotification(
+			'Что-то пошло не так',
+			'Не получилось у нас опубликовать твою историю',
+			500
+		);
+	}
+
+	function failGetPhotoUploadServer() {
+		addNotification(
+			'У нас не получилось запостить',
+			'Тогда так и оставайся пидором',
+			1000
+		);
+	}
+
+	function deniedPostStory() {
+		addNotification(
+			'Не хочешь постить историю?',
+			'Тогда так и оставайся пидором',
+			500
+		);
+	}
+
+	function disablePostStoryButton() {
+		setDisabledPostStory(true);
+	}
+
+	function enablePostStoryButton() {
+		setDisabledPostStory(false);
+	}
+
+	function postingStory() {
+		disablePostStoryButton();
+
+		connect.sendPromise('VKWebAppGetAuthToken', { app_id: VK.APP_ID, scope: 'stories' })
+			.then(({ access_token }) => {
+				connect.sendPromise('VKWebAppCallAPIMethod', {
+					method: 'stories.getPhotoUploadServer',
+					params: {
+						access_token,
+						add_to_news: 1,
+						user_ids: [user.vk_user_id],
+						link_text: 'open',
+						link_url: 'https://vk.com/app' + VK.APP_ID,
+						v: VK.API_VERSION
+					}
+				})
+					.then(({ response }) => {
+						startPostingStory();						
+
+						const uploadUrl = response.upload_url;
+						
+						postStory(uploadUrl)
+							.then(({ status }) => {
+								if (status === 200) {
+									successPostedStory();
+
+									const rate = user.pidor_rate - 20;
+									setUser({
+										...user,
+										pidor_rate: (rate < 0) ? 0 : rate
+									});
+								}
+							})
+							.catch(failPostedStory)
+							.then(enablePostStoryButton, enablePostStoryButton);
+					})
+					.catch(failGetPhotoUploadServer)
+					.then(f => f, enablePostStoryButton);
+			})
+			.catch(deniedPostStory)
+			.then(f => f, enablePostStoryButton);
+	}
 
 	return (
 		<View activePanel="home" popout={popout}>
@@ -128,7 +218,9 @@ const App = () => {
 				user={user}
 				pidorDay={pidorDay}
 				friends={friendsList}
-				notifications={notifications} />
+				notifications={notifications}
+				postingStory={postingStory}
+				disabledPostStory={disabledPostStory} />
 		</View>
 	);
 }

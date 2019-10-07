@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, shape, number, bool, arrayOf, object } from 'prop-types';
+import { string, shape, number, bool, arrayOf, object, func } from 'prop-types';
 
 import './Home.css';
 
@@ -11,7 +11,7 @@ import PidorDay from 'components/PidorDay';
 import Button from 'components/Button';
 import FriendsList from 'components/FriendsList';
 
-const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
+const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStory, disabledPostStory }) => {
     function renderNotification(notification, index) {
         return <Notification key={index} {...notification} />;
     }
@@ -25,8 +25,9 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
                     className="Home__Level"
                     progress={user.pidor_rate}
                     avatar={user.avatar_200}
-                    title="Не, ну ты прям пидор..."
-                    subtitle="К тебе часто парни подкатывают?" />
+                    gif={user.gif}
+                    title={user.phrase.title}
+                    subtitle={user.phrase.subtitle} />
 
                 <div className="Home__actions">
                     <div className="Home__action">
@@ -34,7 +35,9 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
                             className="Home__Button"
                             size="medium"
                             children="Убрать 20%"
-                            full />
+                            full
+                            onClick={postingStory}
+                            disabled={disabledPostStory} />
                         <p className="Home__hint" children="Cторис с признанием" />
                     </div>
                     <div className="Home__action">
@@ -47,7 +50,7 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications }) => {
                     </div>
                 </div>
 
-                <PidorDay className="Home__PidorDay" user={pidorDay} />
+                {(pidorDay) && <PidorDay className="Home__PidorDay" user={pidorDay} />}
 
                 {(Array.isArray(friends) && friends.length > 0) &&
                     <FriendsList className="Home__FriendsList" data={friends} />}
@@ -82,7 +85,9 @@ Home.propTypes = {
         pidor_rate: number
     }),
     friends: arrayOf(object),
-    notifications: arrayOf(object)
+    notifications: arrayOf(object),
+    postingStory: func,
+    disabledPostStory: bool
 };
 
 export default Home;
