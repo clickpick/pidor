@@ -38,7 +38,9 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
                             full
                             onClick={postingStory}
                             disabled={disabledPostStory} />
-                        <p className="Home__hint" children="Cторис с признанием" />
+                        <p className="Home__hint">
+                            Cторис<br/>с признанием
+                        </p>
                     </div>
                     <div className="Home__action">
                         <Button
@@ -46,7 +48,9 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
                             size="medium"
                             children="Убрать до 0%"
                             full />
-                        <p className="Home__hint" children="Плоти и никто не узнает" />
+                        <p className="Home__hint">
+                            Плоти, и никто<br/>не узнает
+                        </p>
                     </div>
                 </div>
 
