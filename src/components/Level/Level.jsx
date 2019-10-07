@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import './Level.css';
 
-const Level = ({ className, radius, stroke, progress, avatar, title, subtitle }) => {
+const Level = ({ className, radius, stroke, progress, avatar, gif, title, subtitle }) => {
     const [currentProgress, setCurrentProgress] = useState(0);
 
     /**
@@ -61,7 +61,12 @@ const Level = ({ className, radius, stroke, progress, avatar, title, subtitle })
                 </svg>
 
                 <div className="Level__avatar" style={{ '--level-progress': progress / 100 }}>
-                    <img src={avatar} alt="аватар пользователя" />
+                    <video
+                        src={gif}
+                        poster={avatar}
+                        autoPlay
+                        loop
+                        muted />
                 </div>
 
                 <div className="Level__percent" children={`${currentProgress}%`} />
@@ -80,6 +85,7 @@ Level.propTypes = {
     radius: number,
     stroke: number,
     progress: number.isRequired,
+    gif: string.isRequired,
     avatar: string,
     title: string.isRequired,
     subtitle: string.isRequired

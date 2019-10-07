@@ -27,14 +27,17 @@
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
 
-    width: calc(var(--level-size) * 0.84);
-    height: calc(var(--level-size) * 0.84);
+    min-width: calc(var(--level-size) * 0.84);
+    min-height: calc(var(--level-size) * 0.84);
+
+    border-radius: 50%;
 }
 
-.Level__avatar img {
-    width: calc(var(--level-size) * 0.84);
-    height: calc(var(--level-size) * 0.84);
+.Level__avatar video {
+    position: absolute;
 
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
 }
 
