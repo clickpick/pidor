@@ -47,7 +47,7 @@ const Button = ({ className, theme, size, full, shape, href, onClick, before, ch
 Button.propTypes = {
     className: string, // дополнительный класс
     type: oneOf(['button', 'submit', 'reset']),
-    theme: oneOf(['primary', 'info']), // тема кнопки
+    theme: oneOf(['primary']), // тема кнопки
     size: oneOf(['small', 'medium']), // размер кнопки
     full: bool, // ширина кнопки
     shape: string,

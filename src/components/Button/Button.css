@@ -65,6 +65,14 @@
 }
 
 /**
+ * Темы
+ */
+.Button.Button--primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/**
  * before content
  */
 .Button__before {

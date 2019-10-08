@@ -7,10 +7,12 @@
     --blue: #5FCBFF;
     --gray: #99A2AD;
     --gray-rgb: 153, 162, 173;
+    --primary: #355FF6;
     
     --button-bg: rgba(101, 132, 241, 0.1);
 
     --background_page: var(--black);
+    --header_background: rgba(30, 36, 59);
 }
 
 * {
