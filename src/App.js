@@ -13,6 +13,7 @@ import * as VK from 'constants/vk';
 import './App.css';
 
 const App = () => {
+	const [activePanel, setActivePanel] = useState('home');
 	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
 	const [user, setUser] = useState(null);
@@ -21,6 +22,37 @@ const App = () => {
 	const [notifications, setNotifications] = useState([]);
 
 	const [disabledPostStory, setDisabledPostStory] = useState(false);
+
+	/**		
+ 	 * Организация переходов по панелям		
+ 	 */
+	function changeActivePanel(e) {
+		if (e.state) {
+			setActivePanel(e.state.panel);
+		} else {
+			setActivePanel('home')
+			window.history.pushState({ panel: 'home' }, 'home');
+		}
+	}
+
+	function go(e) {
+		setActivePanel(e.currentTarget.dataset.to)
+		window.history.pushState({ panel: e.currentTarget.dataset.to }, e.currentTarget.dataset.to);
+	}
+
+	function goBack() {
+		window.history.back();
+	}
+
+	useEffect(() => {
+		window.addEventListener('popstate', (e) => {
+			e.preventDefault();
+			changeActivePanel(e);
+		});
+
+		window.history.pushState({ panel: activePanel }, activePanel);
+		// eslint-disable-next-line react-hooks/exhaustive-deps		
+	}, []);
 
 	function addNotification(title, subtitle, duration) {
 		setTimeout(() => {
@@ -192,7 +224,7 @@ const App = () => {
 	}
 
 	return (
-		<View activePanel="home" popout={popout}>
+		<View activePanel={activePanel} popout={popout}>
 			<Home
 				id="home"
 				loading={!Boolean(popout)}
