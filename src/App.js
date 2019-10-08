@@ -64,7 +64,10 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps		
 	}, []);
 
-	function addNotification(title, subtitle, duration) {
+	/**
+	 * Уведомления
+	 */
+	function addNotification(title, subtitle, duration = 0) {
 		setTimeout(() => {
 			const index = notifications.length;
 			const nextNotifications = [...notifications].concat({ title, subtitle });
@@ -83,6 +86,10 @@ const App = () => {
 
 	function filterNotification(_, index) {
 		return index !== this;
+	}
+
+	function renderNotification(notification, index) {
+		return <Notification key={index} {...notification} />;
 	}
 
 	/**
@@ -166,7 +173,14 @@ const App = () => {
 				setPopout(null);
 				go(to);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				addNotification(
+					'Ой...',
+					'Мы не смогли показать тебе превью твоего призания. Может, попробуешь еще?'
+				);
+				setPopout(null);
+				console.log(err);
+			});
 	}
 
 	/**
@@ -236,12 +250,16 @@ const App = () => {
 						startPostingStory();
 
 						const uploadUrl = response.upload_url;
-						
+
 						postStory(uploadUrl)
 							.then(({ status, data }) => {
 								if (status === 200) {
 									successPostedStory();
 									setUser(data);
+									
+									if (activePanel !== 'home') {
+										setTimeout(goBack, 1000);
+									}
 								}
 							})
 							.catch(failPostedStory)
@@ -252,10 +270,6 @@ const App = () => {
 			})
 			.catch(deniedPostStory)
 			.then(f => f, enablePostStoryButton);
-	}
-
-	function renderNotification(notification, index) {
-		return <Notification key={index} {...notification} />;
 	}
 
 	return <>
