@@ -10,7 +10,7 @@ import NotificationContainer from 'components/NotificationContainer';
 import Notification from 'components/Notification';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
-import { auth, friends, pidorOfTheDay, postStory, prepareStory } from 'api';
+import { auth, friends, pidorOfTheDay, postStory, prepareStory, givePidorRate } from 'api';
 import * as VK from 'constants/vk';
 
 import './App.css';
@@ -272,6 +272,39 @@ const App = () => {
 			.then(f => f, enablePostStoryButton);
 	}
 
+	/**
+	 * Увеличить pidor_rate другу
+	 */
+	function givePidorRateFriend(friend) {
+		if (friend && friend.hasOwnProperty('id')) {
+			givePidorRate(friend.id)
+				.then(() => {
+					addNotification('Красава', '...');
+					const nextFriendsList = [...friendsList].map(friendsListCallback, friend);
+					setFriendsList(nextFriendsList);
+				})
+				.catch((e) => {
+					if (e.response.status === 403) {
+						addNotification('Может хватит?', 'Ты уже закинул ему 10%');
+					}
+
+					return e;
+				})
+				.catch((e) => console.log('give pidor', e));
+		}
+	}
+
+	function friendsListCallback(friend) {
+		if (this.id === friend.id) {
+			return {
+				...friend,
+				pidor_rate: friend.pidor_rate + 10,
+			};
+		}
+
+		return friend;
+	}
+
 	return <>
 		<NotificationContainer children={notifications.map(renderNotification)} />
 
@@ -285,6 +318,7 @@ const App = () => {
 				notifications={notifications}
 				getPreviewStory={getPreviewStory}
 				disabledPostStory={disabledPostStory}
+				givePidorRateFriend={givePidorRateFriend}
 				go={go} />
 			<Preview
 				id="preview"

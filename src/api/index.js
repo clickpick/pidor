@@ -15,3 +15,5 @@ export const pidorOfTheDay = () => requestGet('/pidor-of-the-day');
 export const postStory = (upload_url) => requestPost('/post-story', { upload_url });
 
 export const prepareStory = () => requestPost('/prepare-story');
+
+export const givePidorRate = (acceptor_id) => requestPost('/give-pidor-rate', { acceptor_id });

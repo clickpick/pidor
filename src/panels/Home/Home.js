@@ -12,7 +12,7 @@ import FriendsList from 'components/FriendsList';
 import * as USER_ACTION from 'constants/userAction';
 import { DONATE_LINK } from 'constants/vk';
 
-const Home = ({ id, loading, user, pidorDay, friends, disabledPostStory, getPreviewStory }) => {
+const Home = ({ id, loading, user, pidorDay, friends, disabledPostStory, getPreviewStory, givePidorRateFriend }) => {
     return (
         <Panel id={id} className="Home">
             {(loading) && <>
@@ -57,7 +57,10 @@ const Home = ({ id, loading, user, pidorDay, friends, disabledPostStory, getPrev
 
                 {(Array.isArray(friends) && friends.length > 0) && <>
                     <h2 className="Home__title">Твои друзия – пидоры</h2>
-                    <FriendsList className="Home__FriendsList" data={friends} />
+                    <FriendsList
+                        className="Home__FriendsList"
+                        data={friends}
+                        givePidorRateFriend={givePidorRateFriend} />
                 </>}
             </>}
         </Panel>
@@ -92,7 +95,8 @@ Home.propTypes = {
     }),
     friends: arrayOf(object),
     disabledPostStory: bool,
-    getPreviewStory: func.isRequired
+    getPreviewStory: func.isRequired,
+    givePidorRateFriend: func.isRequired
 };
 
 export default Home;
