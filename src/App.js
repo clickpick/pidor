@@ -5,15 +5,19 @@ import { View, ScreenSpinner } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from 'panels/Home';
+import Preview from 'panels/Preview';
+import NotificationContainer from 'components/NotificationContainer';
+import Notification from 'components/Notification';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
-import { auth, friends, pidorOfTheDay, postStory } from 'api';
+import { auth, friends, pidorOfTheDay, postStory, prepareStory } from 'api';
 import * as VK from 'constants/vk';
 
 import './App.css';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
+	const [loaded, setLoaded] = useState(false);
 	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
 	const [user, setUser] = useState(null);
@@ -21,6 +25,7 @@ const App = () => {
 	const [friendsList, setFriendsList] = useState(undefined);
 	const [notifications, setNotifications] = useState([]);
 
+	const [preview, setPreview] = useState(null);
 	const [disabledPostStory, setDisabledPostStory] = useState(false);
 
 	/**		
@@ -36,8 +41,13 @@ const App = () => {
 	}
 
 	function go(e) {
-		setActivePanel(e.currentTarget.dataset.to)
-		window.history.pushState({ panel: e.currentTarget.dataset.to }, e.currentTarget.dataset.to);
+		let to = e;
+		if (typeof e === 'object') {
+			to = e.currentTarget.dataset.to;
+		}
+
+		setActivePanel(to);
+		window.history.pushState({ panel: to }, `${to}`);
 	}
 
 	function goBack() {
@@ -135,12 +145,33 @@ const App = () => {
 
 		function removePopout() {
 			setPopout(null);
+			setLoaded(true);
 		}
 
 		authorization(fetchAll);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	/**
+	 * Получение превью сторис
+	 */
+	function getPreviewStory(e) {
+		const to = e.currentTarget.dataset.to;
+
+		setPopout(<ScreenSpinner size="large" />);
+
+		prepareStory()
+			.then(({ rest }) => {
+				setPreview(rest.request.response);
+				setPopout(null);
+				go(to);
+			})
+			.catch((err) => console.log(err));
+	}
+
+	/**
+	 * Постинг сторис
+	 */
 	function startPostingStory() {
 		addNotification(
 			'Начинаем постить твою историю',
@@ -223,19 +254,32 @@ const App = () => {
 			.then(f => f, enablePostStoryButton);
 	}
 
-	return (
+	function renderNotification(notification, index) {
+		return <Notification key={index} {...notification} />;
+	}
+
+	return <>
+		<NotificationContainer children={notifications.map(renderNotification)} />
+
 		<View activePanel={activePanel} popout={popout}>
 			<Home
 				id="home"
-				loading={!Boolean(popout)}
+				loading={loaded}
 				user={user}
 				pidorDay={pidorDay}
 				friends={friendsList}
 				notifications={notifications}
+				getPreviewStory={getPreviewStory}
+				disabledPostStory={disabledPostStory}
+				go={go} />
+			<Preview
+				id="preview"
+				preview={preview}
+				disabledPostStory={disabledPostStory}
 				postingStory={postingStory}
-				disabledPostStory={disabledPostStory} />
+				goBack={goBack} />
 		</View>
-	);
+	</>;
 }
 
 export default App;

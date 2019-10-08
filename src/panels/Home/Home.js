@@ -4,8 +4,6 @@ import { string, shape, number, bool, arrayOf, object, func } from 'prop-types';
 import './Home.css';
 
 import { Panel } from '@vkontakte/vkui';
-import NotificationContainer from 'components/NotificationContainer';
-import Notification from 'components/Notification';
 import Level from 'components/Level';
 import PidorDay from 'components/PidorDay';
 import Button from 'components/Button';
@@ -14,16 +12,10 @@ import FriendsList from 'components/FriendsList';
 import * as USER_ACTION from 'constants/userAction';
 import { DONATE_LINK } from 'constants/vk';
 
-const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStory, disabledPostStory }) => {
-    function renderNotification(notification, index) {
-        return <Notification key={index} {...notification} />;
-    }
-
+const Home = ({ id, loading, user, pidorDay, friends, disabledPostStory, getPreviewStory }) => {
     return (
         <Panel id={id} className="Home">
-            <NotificationContainer children={notifications.map(renderNotification)} />
-
-            {(loading) && <> 
+            {(loading) && <>
                 <Level
                     className="Home__Level"
                     progress={user.pidor_rate}
@@ -41,7 +33,8 @@ const Home = ({ id, loading, user, pidorDay, friends, notifications, postingStor
                                 ? 'Поделиться'
                                 : 'Убрать 20%')}
                             full
-                            onClick={postingStory}
+                            onClick={getPreviewStory}
+                            data-to="preview"
                             disabled={disabledPostStory} />
                         <p className="Home__hint">
                             Cторис<br/>с признанием
@@ -98,9 +91,8 @@ Home.propTypes = {
         pidor_rate: number
     }),
     friends: arrayOf(object),
-    notifications: arrayOf(object),
-    postingStory: func,
-    disabledPostStory: bool
+    disabledPostStory: bool,
+    getPreviewStory: func.isRequired
 };
 
 export default Home;
