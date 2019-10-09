@@ -11,6 +11,7 @@ import Notification from 'components/Notification';
 
 import { getTimezoneOffset, parseQueryString } from 'helpers';
 import { auth, friends, pidorOfTheDay, postStory, prepareStory, givePidorRate } from 'api';
+import Queue from 'helpers/queue';
 import * as VK from 'constants/vk';
 
 import './App.css';
@@ -23,6 +24,8 @@ const App = () => {
 	const [user, setUser] = useState(null);
 	const [pidorDay, setPidorDay] = useState(null);
 	const [friendsList, setFriendsList] = useState(undefined);
+
+	const [notificationsQueue, setNotificationsQueue] = useState(new Queue());
 	const [notifications, setNotifications] = useState([]);
 
 	const [preview, setPreview] = useState(null);
@@ -69,23 +72,27 @@ const App = () => {
 	 */
 	function addNotification(title, subtitle, duration = 0) {
 		setTimeout(() => {
-			const index = notifications.length;
-			const nextNotifications = [...notifications].concat({ title, subtitle });
+			const index = notificationsQueue.enqueue({ title, subtitle });
+			const storage = notificationsQueue.getStorage();
+			const keys = Object.keys(storage);
+			const nextNotifications = keys.map((key) => storage[key]);
 			
 			setNotifications(nextNotifications);
+			setNotificationsQueue(notificationsQueue);
 			removeNotification(index);
 		}, duration);
 	}
 
 	function removeNotification(index, duration = 4000) {
 		setTimeout(() => {
-			const nextNotifications = notifications.filter(filterNotification, index);
-			setNotifications(nextNotifications);
-		}, duration);
-	}
+			notificationsQueue.dequeue(index);
+			const storage = notificationsQueue.getStorage();
+			const keys = Object.keys(storage);
+			const nextNotifications = keys.map((key) => storage[key]);
 
-	function filterNotification(_, index) {
-		return index !== this;
+			setNotifications(nextNotifications);
+			setNotificationsQueue(notificationsQueue);
+		}, duration);
 	}
 
 	function renderNotification(notification, index) {
