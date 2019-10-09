@@ -297,9 +297,11 @@ const App = () => {
 
 	function friendsListCallback(friend) {
 		if (this.id === friend.id) {
+			const nextPidorRate = friend.pidor_rate + 10;
+
 			return {
 				...friend,
-				pidor_rate: friend.pidor_rate + 10,
+				pidor_rate: (nextPidorRate > 100) ? 100 : nextPidorRate
 			};
 		}
 
