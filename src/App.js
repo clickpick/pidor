@@ -196,6 +196,7 @@ const App = () => {
 
 	function successPostedStory() {
 		addNotification('Ура!', 'Ну ты не пидор', 500);
+		enablePostStoryButton();
 	}
 
 	function failPostedStory() {
@@ -204,6 +205,7 @@ const App = () => {
 			'Не получилось у нас опубликовать твою историю',
 			500
 		);
+		enablePostStoryButton();
 	}
 
 	function failGetPhotoUploadServer() {
@@ -212,6 +214,7 @@ const App = () => {
 			'Тогда так и оставайся пидором',
 			1000
 		);
+		enablePostStoryButton();
 	}
 
 	function deniedPostStory() {
@@ -220,6 +223,7 @@ const App = () => {
 			'Тогда так и оставайся пидором',
 			500
 		);
+		enablePostStoryButton();
 	}
 
 	function disablePostStoryButton() {
@@ -262,14 +266,11 @@ const App = () => {
 									}
 								}
 							})
-							.catch(failPostedStory)
-							.then(enablePostStoryButton, enablePostStoryButton);
+							.catch(failPostedStory);
 					})
-					.catch(failGetPhotoUploadServer)
-					.then(f => f, enablePostStoryButton);
+					.catch(failGetPhotoUploadServer);
 			})
-			.catch(deniedPostStory)
-			.then(f => f, enablePostStoryButton);
+			.catch(deniedPostStory);
 	}
 
 	/**
